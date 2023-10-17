@@ -29,9 +29,15 @@ class AppData with ChangeNotifier {
   // TODO cambiar a metodo para que sea automatico segun las filas y columnas
   void resetGame() {
     board = [
-      ['+', '-', '1'],
-      ['-', '+', '-'],
-      ['-', '-', '+'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-']
     ];
     gameIsOver = false;
     gameWinner = '-'; //Eliminar o cambiar?
@@ -60,8 +66,8 @@ class AppData with ChangeNotifier {
     bool moveMade = false;
 
     // Buscar una casella lliure '-'
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
         if (board[i][j] == '-') {
           board[i][j] = 'O';
           moveMade = true;
@@ -77,7 +83,7 @@ class AppData with ChangeNotifier {
   // Comprova si el joc ja té un tres en ratlla
   // No comprova la situació d'empat
   void checkGameWinner() {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 9; i++) {
       // Comprovar files
       if (board[i][0] == board[i][1] &&
           board[i][1] == board[i][2] &&

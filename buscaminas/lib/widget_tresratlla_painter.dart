@@ -19,7 +19,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
     final List<double> verticalLines = [0];
     final double firstVertical = size.width / 9;
     verticalLines.add(firstVertical);
-    for (int i = 2 ; i < 11 ; i++) {
+    for (int i = 2; i < 11; i++) {
       verticalLines.add(firstVertical * i);
     }
 
@@ -32,7 +32,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
     final List<double> horizontalLines = [0];
     final double firstHorizontal = size.height / 9;
     horizontalLines.add(firstHorizontal);
-    for (int i = 2 ; i < 11 ; i++) {
+    for (int i = 2; i < 11; i++) {
       horizontalLines.add(firstHorizontal * i);
     }
 
@@ -104,11 +104,11 @@ class WidgetTresRatllaPainter extends CustomPainter {
   // Dibuixa el taulell de joc (creus i rodones)
   void drawBoardStatus(Canvas canvas, Size size) {
     // Dibuixar 'X' i 'O' del tauler
-    double cellWidth = size.width / 3;
-    double cellHeight = size.height / 3;
+    double cellWidth = size.width / 9;
+    double cellHeight = size.height / 9;
 
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
         if (appData.board[i][j] == 'X') {
           // Dibuixar una X amb el color del jugador
           Color color = Colors.blue;

@@ -31,12 +31,13 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
       // Este widget lo usamos para recoger la casilla en la que se esta haciendo el tap
       onTapUp: (TapUpDetails details) {
         final int row =
-            (details.localPosition.dy / (context.size!.height / 3)).floor();
-            // Resum linea de arriba (posicion de y del toque / (altura / 3))¿.floor()? creo que el resultado es 1, 2 o 3
+            (details.localPosition.dy / (context.size!.height / 9)).floor();
+        // Resum linea de arriba (posicion de y del toque / (altura / 3))¿.floor()? creo que el resultado es 1, 2 o 3
         final int col =
-            (details.localPosition.dx / (context.size!.width / 3)).floor();
+            (details.localPosition.dx / (context.size!.width / 9)).floor();
 
-        appData.playMove(row, col); // Mandomos la fila y la columna a appdata linea 29
+        appData.playMove(
+            row, col); // Mandomos la fila y la columna a appdata linea 29
         setState(() {}); // Actualitza la vista
       },
       child: SizedBox(
@@ -55,10 +56,10 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
               return GestureDetector(
                 onTapUp: (TapUpDetails details) {
                   final int row =
-                      (details.localPosition.dy / (context.size!.height / 3))
+                      (details.localPosition.dy / (context.size!.height / 9))
                           .floor();
                   final int col =
-                      (details.localPosition.dx / (context.size!.width / 3))
+                      (details.localPosition.dx / (context.size!.width / 9))
                           .floor();
 
                   appData.playMove(row, col);
