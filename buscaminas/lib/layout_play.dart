@@ -20,9 +20,11 @@ class LayoutPlayState extends State<LayoutPlay> {
           },
         ),
       ),
-      child: const SafeArea(
-        child: WidgetBuscaminas(),
-      ),
+      child: Container(
+          padding: const EdgeInsets.all(100),
+          child: const SafeArea(
+            child: WidgetBuscaminas(),
+          )),
     );
   }
 }
