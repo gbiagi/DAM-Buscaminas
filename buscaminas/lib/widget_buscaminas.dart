@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'app_data.dart';
-import 'widget_tresratlla_painter.dart';
+import 'widget_buscaminas_painter.dart';
 
-class WidgetTresRatlla extends StatefulWidget {
-  const WidgetTresRatlla({Key? key}) : super(key: key);
+class WidgetBuscaminas extends StatefulWidget {
+  const WidgetBuscaminas({Key? key}) : super(key: key);
 
   @override
-  WidgetTresRatllaState createState() => WidgetTresRatllaState();
+  WidgetBuscaminasState createState() => WidgetBuscaminasState();
 }
 
-class WidgetTresRatllaState extends State<WidgetTresRatlla> {
+class WidgetBuscaminasState extends State<WidgetBuscaminas> {
   Future<void>? _loadImagesFuture;
 
   // Al iniciar el widget, carrega les imatges
@@ -72,7 +72,7 @@ class WidgetTresRatllaState extends State<WidgetTresRatlla> {
                   height: MediaQuery.of(context).size.height -
                       56.0, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
                   child: CustomPaint(
-                    painter: WidgetTresRatllaPainter(appData),
+                    painter: WidgetBuscaminasPainter(appData),
                   ),
                 ),
               );

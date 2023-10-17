@@ -136,8 +136,8 @@ class AppData with ChangeNotifier {
     // Força simular un loading
     await Future.delayed(const Duration(milliseconds: 500));
 
-    Image tmpPlayer = Image.asset('assets/images/player.png');
-    Image tmpOpponent = Image.asset('assets/images/opponent.png');
+    Image tmpPlayer = Image.asset('assets/images/bomb.png');
+    Image tmpOpponent = Image.asset('assets/images/flag.png');
 
     // Carrega les imatges
     if (context.mounted) {

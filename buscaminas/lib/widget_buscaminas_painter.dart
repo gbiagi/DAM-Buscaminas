@@ -4,10 +4,10 @@ import 'package:flutter/material.dart'; // per a 'CustomPainter'
 import 'app_data.dart';
 
 // S'encarrega del dibuix personalitzat del joc
-class WidgetTresRatllaPainter extends CustomPainter {
+class WidgetBuscaminasPainter extends CustomPainter {
   final AppData appData;
 
-  WidgetTresRatllaPainter(this.appData);
+  WidgetBuscaminasPainter(this.appData);
 
   // Dibuixa les linies del taulell
   void drawBoardLines(Canvas canvas, Size size) {
