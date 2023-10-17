@@ -16,24 +16,30 @@ class WidgetTresRatllaPainter extends CustomPainter {
       ..strokeWidth = 5.0;
 
     // Definim els punts on es creuaran les línies verticals
-    final double firstVertical = size.width / 3;
-    final double secondVertical = 2 * size.width / 3;
+    final List<double> verticalLines = [0];
+    final double firstVertical = size.width / 9;
+    verticalLines.add(firstVertical);
+    for (int i = 2 ; i < 11 ; i++) {
+      verticalLines.add(firstVertical * i);
+    }
 
     // Dibuixem les línies verticals
-    canvas.drawLine(
-        Offset(firstVertical, 0), Offset(firstVertical, size.height), paint);
-    canvas.drawLine(
-        Offset(secondVertical, 0), Offset(secondVertical, size.height), paint);
+    for (double line in verticalLines) {
+      canvas.drawLine(Offset(line, 0), Offset(line, size.height), paint);
+    }
 
     // Definim els punts on es creuaran les línies horitzontals
-    final double firstHorizontal = size.height / 3;
-    final double secondHorizontal = 2 * size.height / 3;
+    final List<double> horizontalLines = [0];
+    final double firstHorizontal = size.height / 9;
+    horizontalLines.add(firstHorizontal);
+    for (int i = 2 ; i < 11 ; i++) {
+      horizontalLines.add(firstHorizontal * i);
+    }
 
     // Dibuixem les línies horitzontals
-    canvas.drawLine(
-        Offset(0, firstHorizontal), Offset(size.width, firstHorizontal), paint);
-    canvas.drawLine(Offset(0, secondHorizontal),
-        Offset(size.width, secondHorizontal), paint);
+    for (double line in horizontalLines) {
+      canvas.drawLine(Offset(0, line), Offset(size.width, line), paint);
+    }
   }
 
   // Dibuixa la imatge centrada a una casella del taulell

@@ -9,7 +9,7 @@ class AppData with ChangeNotifier {
 
   List<List<String>> board = []; // Matriz
   bool gameIsOver = false;
-  String gameWinner = '-';
+  String gameWinner = '-'; //TODO quitar
 
   // TODO cambiar imagenes para que hayan bomba, bombaExplotada y bandera
   // tambien se puede mirar de hacer con vectores
