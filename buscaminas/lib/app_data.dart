@@ -3,29 +3,47 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class AppData with ChangeNotifier {
-  // App status
-  String colorPlayer = "Verd";
-  String colorOpponent = "Taronja";
+  /* App status */
+  String colorPlayer = "Verd"; //TODO quitar
+  String colorOpponent = "Taronja"; //TODO quitar
 
-  List<List<String>> board = [];
+  List<List<String>> board = []; // Matriz
   bool gameIsOver = false;
   String gameWinner = '-';
 
+  // TODO cambiar imagenes para que hayan bomba, bombaExplotada y bandera
+  // tambien se puede mirar de hacer con vectores
   ui.Image? imagePlayer;
   ui.Image? imageOpponent;
   bool imagesReady = false;
 
+  // Cosas nuevas
+  int flagCount = 0; // Banderas que coloca el usuario
+  int bombCount = 0; // Bombas que estan bien marcadas
+  int totalBomb = 0; // Total de bombas
+  int totalCasilla = 0; //Se puede cambiar el nombre
+
+  /*
+  Metodos
+   */
+  // TODO cambiar a metodo para que sea automatico segun las filas y columnas
   void resetGame() {
     board = [
-      ['-', '-', '-'],
-      ['-', '-', '-'],
-      ['-', '-', '-'],
+      ['+', '-', '1'],
+      ['-', '+', '-'],
+      ['-', '-', '+'],
     ];
     gameIsOver = false;
-    gameWinner = '-';
+    gameWinner = '-'; //Eliminar o cambiar?
   }
 
   // Fa una jugada, primer el jugador després la maquina
+  /* 
+  TODO cambiar por metodo recursivo que podria:
+  Recivir int row, int col y bool flag
+  Si tiene flag se suman los counts y se termina el metodo
+  Sino se mira de forma recursiva las casillas hasta despejar todas las casillas que hagan falta
+  */
   void playMove(int row, int col) {
     if (board[row][col] == '-') {
       board[row][col] = 'X';
@@ -37,6 +55,7 @@ class AppData with ChangeNotifier {
   }
 
   // Fa una jugada de la màquina, només busca la primera posició lliure
+  //Quitar?
   void machinePlay() {
     bool moveMade = false;
 
