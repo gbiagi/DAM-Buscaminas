@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class AppData with ChangeNotifier {
   /* App status */
-  String colorPlayer = "Verd"; //TODO quitar
-  String colorOpponent = "Taronja"; //TODO quitar
+  int boardSize = 9; //TODO modificar su layout
+  int bombAmount = 10; //TODO modificar su layout
 
   List<List<String>> board = []; // Matriz
   bool gameIsOver = false;
@@ -27,18 +27,24 @@ class AppData with ChangeNotifier {
   Metodos
    */
   // TODO cambiar a metodo para que sea automatico segun las filas y columnas
-  void resetGame() {
-    board = [
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-']
-    ];
+  void resetGame(int row, int col) {
+    // Se crea la matriz con el tamaño seleccionado rellenada con guiones(-)
+    for (int row = 0 ; row < boardSize ; row++) {
+      board.add([]);
+      for (int col = 0 ; col < boardSize ; col++) {
+        board[row].add("-");
+      }
+    }
+
+    // Se crea la casilla palomita
+    board[row][col] = "p";
+
+    // Se colocan las bombas usando el pbc(Porcentaje de Bombas por Casill)
+    for (int row = 0 ; row < boardSize ; row++) {
+      for (int col = 0 ; col < boardSize ; col++) {
+        if (board[row][col])
+      }
+    }
     gameIsOver = false;
     gameWinner = '-'; //Eliminar o cambiar?
   }
