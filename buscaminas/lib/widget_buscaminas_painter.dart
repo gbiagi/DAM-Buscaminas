@@ -17,9 +17,9 @@ class WidgetBuscaminasPainter extends CustomPainter {
 
     // Definim els punts on es creuaran les línies verticals
     final List<double> verticalLines = [0];
-    final double firstVertical = size.width / 9;
+    final double firstVertical = size.width / appData.boardSize;
     verticalLines.add(firstVertical);
-    for (int i = 2; i < 11; i++) {
+    for (int i = 2; i < appData.boardSize + 2; i++) {
       verticalLines.add(firstVertical * i);
     }
 
@@ -30,9 +30,9 @@ class WidgetBuscaminasPainter extends CustomPainter {
 
     // Definim els punts on es creuaran les línies horitzontals
     final List<double> horizontalLines = [0];
-    final double firstHorizontal = size.height / 9;
+    final double firstHorizontal = size.height / appData.boardSize;
     horizontalLines.add(firstHorizontal);
-    for (int i = 2; i < 11; i++) {
+    for (int i = 2; i < appData.boardSize + 2; i++) {
       horizontalLines.add(firstHorizontal * i);
     }
 
@@ -104,15 +104,15 @@ class WidgetBuscaminasPainter extends CustomPainter {
   // Dibuixa el taulell de joc (creus i rodones)
   void drawBoardStatus(Canvas canvas, Size size) {
     // Dibuixar 'X' i 'O' del tauler
-    double cellWidth = size.width / 9;
-    double cellHeight = size.height / 9;
+    double cellWidth = size.width / appData.boardSize;
+    double cellHeight = size.height / appData.boardSize;
 
-    for (int i = 0; i < 9; i++) {
-      for (int j = 0; j < 9; j++) {
+    for (int i = 0; i < appData.boardSize; i++) {
+      for (int j = 0; j < appData.boardSize; j++) {
         if (appData.board[i][j] == 'X') {
           // Dibuixar una X amb el color del jugador
           Color color = Colors.blue;
-          switch (appData.colorPlayer) {
+          switch ("Blau") {
             case "Blau":
               color = Colors.blue;
               break;
@@ -133,7 +133,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
         } else if (appData.board[i][j] == 'O') {
           // Dibuixar una O amb el color de l'oponent
           Color color = Colors.blue;
-          switch (appData.colorOpponent) {
+          switch ("Vermell") {
             case "Vermell":
               color = Colors.red;
               break;

@@ -30,13 +30,15 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
     return GestureDetector(
       // Este widget lo usamos para recoger la casilla en la que se esta haciendo el tap
       onTapUp: (TapUpDetails details) {
-        final int row =
-            (details.localPosition.dy / (context.size!.height / 9)).floor();
+        final int row = (details.localPosition.dy /
+                (context.size!.height / appData.boardSize))
+            .floor();
         // Resum linea de arriba (posicion de y del toque / (altura / 3))¿.floor()? creo que el resultado es 1, 2 o 3
-        final int col =
-            (details.localPosition.dx / (context.size!.width / 9)).floor();
+        final int col = (details.localPosition.dx /
+                (context.size!.width / appData.boardSize))
+            .floor();
 
-        appData.playMove(
+        appData.compBomb(
             row, col); // Mandomos la fila y la columna a appdata linea 29
         setState(() {}); // Actualitza la vista
       },
@@ -55,14 +57,14 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
             } else {
               return GestureDetector(
                 onTapUp: (TapUpDetails details) {
-                  final int row =
-                      (details.localPosition.dy / (context.size!.height / 9))
-                          .floor();
-                  final int col =
-                      (details.localPosition.dx / (context.size!.width / 9))
-                          .floor();
+                  final int row = (details.localPosition.dy /
+                          (context.size!.height / appData.boardSize))
+                      .floor();
+                  final int col = (details.localPosition.dx /
+                          (context.size!.width / appData.boardSize))
+                      .floor();
 
-                  appData.playMove(row, col);
+                  appData.compBomb(row, col);
                   setState(() {}); // Actualitza la vista
                 },
                 child: SizedBox(
