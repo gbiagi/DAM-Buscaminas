@@ -9,7 +9,6 @@ class AppData with ChangeNotifier {
 
   List<List<String>> board = []; // Matriz
   bool gameIsOver = false;
-  String gameWinner = '-'; //TODO quitar
 
   // TODO cambiar imagenes para que hayan bomba, bombaExplotada y bandera
   // tambien se puede mirar de hacer con vectores
@@ -40,7 +39,6 @@ class AppData with ChangeNotifier {
       ['-', '-', '-', '-', '-', '-', '-', '-', '-']
     ];
     gameIsOver = false;
-    gameWinner = '-'; //Eliminar o cambiar?
   }
 
   // Fa una jugada, primer el jugador després la maquina
@@ -53,76 +51,7 @@ class AppData with ChangeNotifier {
   void playMove(int row, int col) {
     if (board[row][col] == '-') {
       board[row][col] = 'X';
-      checkGameWinner();
-      if (gameWinner == '-') {
-        machinePlay();
-      }
     }
-  }
-
-  // Fa una jugada de la màquina, només busca la primera posició lliure
-  //Quitar?
-  void machinePlay() {
-    bool moveMade = false;
-
-    // Buscar una casella lliure '-'
-    for (int i = 0; i < 9; i++) {
-      for (int j = 0; j < 9; j++) {
-        if (board[i][j] == '-') {
-          board[i][j] = 'O';
-          moveMade = true;
-          break;
-        }
-      }
-      if (moveMade) break;
-    }
-
-    checkGameWinner();
-  }
-
-  // Comprova si el joc ja té un tres en ratlla
-  // No comprova la situació d'empat
-  void checkGameWinner() {
-    for (int i = 0; i < 9; i++) {
-      // Comprovar files
-      if (board[i][0] == board[i][1] &&
-          board[i][1] == board[i][2] &&
-          board[i][0] != '-') {
-        gameIsOver = true;
-        gameWinner = board[i][0];
-        return;
-      }
-
-      // Comprovar columnes
-      if (board[0][i] == board[1][i] &&
-          board[1][i] == board[2][i] &&
-          board[0][i] != '-') {
-        gameIsOver = true;
-        gameWinner = board[0][i];
-        return;
-      }
-    }
-
-    // Comprovar diagonal principal
-    if (board[0][0] == board[1][1] &&
-        board[1][1] == board[2][2] &&
-        board[0][0] != '-') {
-      gameIsOver = true;
-      gameWinner = board[0][0];
-      return;
-    }
-
-    // Comprovar diagonal secundària
-    if (board[0][2] == board[1][1] &&
-        board[1][1] == board[2][0] &&
-        board[0][2] != '-') {
-      gameIsOver = true;
-      gameWinner = board[0][2];
-      return;
-    }
-
-    // No hi ha guanyador, torna '-'
-    gameWinner = '-';
   }
 
   // Carrega les imatges per dibuixar-les al Canvas
