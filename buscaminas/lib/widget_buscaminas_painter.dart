@@ -73,33 +73,33 @@ class WidgetBuscaminasPainter extends CustomPainter {
   }
 
   // Dibuia una creu centrada a una casella del taulell
-  void drawCross(Canvas canvas, double x0, double y0, double x1, double y1,
-      Color color, double strokeWidth) {
-    Paint paint = Paint()
-      ..color = color
-      ..strokeWidth = strokeWidth;
+  // void drawCross(Canvas canvas, double x0, double y0, double x1, double y1,
+  //     Color color, double strokeWidth) {
+  //   Paint paint = Paint()
+  //     ..color = color
+  //     ..strokeWidth = strokeWidth;
 
-    canvas.drawLine(
-      Offset(x0, y0),
-      Offset(x1, y1),
-      paint,
-    );
-    canvas.drawLine(
-      Offset(x1, y0),
-      Offset(x0, y1),
-      paint,
-    );
-  }
+  //   canvas.drawLine(
+  //     Offset(x0, y0),
+  //     Offset(x1, y1),
+  //     paint,
+  //   );
+  //   canvas.drawLine(
+  //     Offset(x1, y0),
+  //     Offset(x0, y1),
+  //     paint,
+  //   );
+  // }
 
   // Dibuixa un cercle centrat a una casella del taulell
-  void drawCircle(Canvas canvas, double x, double y, double radius, Color color,
-      double strokeWidth) {
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = color
-      ..strokeWidth = strokeWidth;
-    canvas.drawCircle(Offset(x, y), radius, paint);
-  }
+  // void drawCircle(Canvas canvas, double x, double y, double radius, Color color,
+  //     double strokeWidth) {
+  //   final paint = Paint()
+  //     ..style = PaintingStyle.stroke
+  //     ..color = color
+  //     ..strokeWidth = strokeWidth;
+  //   canvas.drawCircle(Offset(x, y), radius, paint);
+  // }
 
   // Dibuixa el taulell de joc (creus i rodones)
   void drawBoardStatus(Canvas canvas, Size size) {
@@ -123,14 +123,13 @@ class WidgetBuscaminasPainter extends CustomPainter {
               color = Colors.grey;
               break;
           }
-
           double x0 = j * cellWidth;
           double y0 = i * cellHeight;
           double x1 = (j + 1) * cellWidth;
           double y1 = (i + 1) * cellHeight;
 
           drawImage(canvas, appData.imagePlayer!, x0, y0, x1, y1);
-          drawCross(canvas, x0, y0, x1, y1, color, 5.0);
+          //drawCross(canvas, x0, y0, x1, y1, color, 5.0);
         } else if (appData.board[i][j] == 'O') {
           // Dibuixar una O amb el color de l'oponent
           Color color = Colors.blue;
@@ -155,7 +154,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
           double radius = (min(cellWidth, cellHeight) / 2) - 5;
 
           drawImage(canvas, appData.imageOpponent!, x0, y0, x1, y1);
-          drawCircle(canvas, cX, cY, radius, color, 5.0);
+          //drawCircle(canvas, cX, cY, radius, color, 5.0);
         }
       }
     }
@@ -163,7 +162,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
 
   // Dibuixa el missatge de joc acabat
   void drawGameOver(Canvas canvas, Size size) {
-    String message = "El joc ha acabat. Ha guanyat ${appData.gameWinner}!";
+    String message = "El joc ha acabat!";
 
     const textStyle = TextStyle(
       color: Colors.black,
@@ -203,9 +202,8 @@ class WidgetBuscaminasPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     drawBoardLines(canvas, size);
     drawBoardStatus(canvas, size);
-    if (appData.gameWinner != '-') {
-      drawGameOver(canvas, size);
-    }
+    //if (appData.gameWinner != '-') {
+    //  drawGameOver(canvas, size);}
   }
 
   // Funció que diu si cal redibuixar el widget
