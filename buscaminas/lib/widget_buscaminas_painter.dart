@@ -19,7 +19,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
     final List<double> verticalLines = [0];
     final double firstVertical = size.width / appData.boardSize;
     verticalLines.add(firstVertical);
-    for (int i = 2; i < appData.boardSize + 2; i++) {
+    for (int i = 2; i < appData.boardSize + 1; i++) {
       verticalLines.add(firstVertical * i);
     }
 
@@ -32,7 +32,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
     final List<double> horizontalLines = [0];
     final double firstHorizontal = size.height / appData.boardSize;
     horizontalLines.add(firstHorizontal);
-    for (int i = 2; i < appData.boardSize + 2; i++) {
+    for (int i = 2; i < appData.boardSize + 1; i++) {
       horizontalLines.add(firstHorizontal * i);
     }
 
@@ -72,36 +72,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
     canvas.drawImageRect(image, srcRect, dstRect, Paint());
   }
 
-  // Dibuia una creu centrada a una casella del taulell
-  // void drawCross(Canvas canvas, double x0, double y0, double x1, double y1,
-  //     Color color, double strokeWidth) {
-  //   Paint paint = Paint()
-  //     ..color = color
-  //     ..strokeWidth = strokeWidth;
-
-  //   canvas.drawLine(
-  //     Offset(x0, y0),
-  //     Offset(x1, y1),
-  //     paint,
-  //   );
-  //   canvas.drawLine(
-  //     Offset(x1, y0),
-  //     Offset(x0, y1),
-  //     paint,
-  //   );
-  // }
-
-  // Dibuixa un cercle centrat a una casella del taulell
-  // void drawCircle(Canvas canvas, double x, double y, double radius, Color color,
-  //     double strokeWidth) {
-  //   final paint = Paint()
-  //     ..style = PaintingStyle.stroke
-  //     ..color = color
-  //     ..strokeWidth = strokeWidth;
-  //   canvas.drawCircle(Offset(x, y), radius, paint);
-  // }
-
-  // Dibuixa el taulell de joc (creus i rodones)
+  // Dibuixa el taulell de joc
   void drawBoardStatus(Canvas canvas, Size size) {
     // Dibuixar 'X' i 'O' del tauler
     double cellWidth = size.width / appData.boardSize;
@@ -197,13 +168,19 @@ class WidgetBuscaminasPainter extends CustomPainter {
     textPainter.paint(canvas, position);
   }
 
+  // TODO cambiar este metedo y el de arriba
   // Funció principal de dibuix
   @override
   void paint(Canvas canvas, Size size) {
     drawBoardLines(canvas, size);
     drawBoardStatus(canvas, size);
-    //if (appData.gameWinner != '-') {
-    //  drawGameOver(canvas, size);}
+    if (appData.gameIsOver) {
+      if (appData.gameIsWin) {
+        drawGameOver(canvas, size); // Se dibuja final de ganar
+      } else {
+        drawGameOver(canvas, size); // Se dibuja final de perder
+      }
+    }
   }
 
   // Funció que diu si cal redibuixar el widget

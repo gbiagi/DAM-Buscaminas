@@ -14,6 +14,7 @@ class AppData with ChangeNotifier {
 
   bool gameIsOver = false;
   bool gameIsWin = false;
+  bool firstMove = true;
 
   // TODO cambiar imagenes para que hayan bomba, bombaExplotada y bandera
   // tambien se puede mirar de hacer con vectores
@@ -31,6 +32,9 @@ class AppData with ChangeNotifier {
   // Resetear juego
   void resetGame() {
     board.clear();
+    gameIsOver = false;
+    gameIsWin = false;
+    firstMove = true;
 
     // Se crea la matriz con el tamaño seleccionado rellenada con guiones(-)
     for (int row = 0; row < boardSize; row++) {
@@ -156,7 +160,7 @@ class AppData with ChangeNotifier {
   // Comprobar si ha ganado
   void checkWin() {
     if ((exploredBoxes + bombAmount == boardSize * boardSize) &
-        (bombsWithFlag == bombAmount)) gameIsWin = true;
+        (bombsWithFlag == bombAmount)) gameIsWin = true; gameIsOver = true;
   }
 
   // Carrega les imatges per dibuixar-les al Canvas
