@@ -18,8 +18,11 @@ class AppData with ChangeNotifier {
 
   // TODO cambiar imagenes para que hayan bomba, bombaExplotada y bandera
   // tambien se puede mirar de hacer con vectores
-  ui.Image? imagePlayer;
-  ui.Image? imageOpponent;
+  ui.Image? imageBomb;
+  ui.Image? imageFlag;
+  ui.Image? imageExplosion;
+  ui.Image? imagePopcorn;
+
   bool imagesReady = false;
 
   int flagCount = 0; // Banderas que coloca el usuario
@@ -174,15 +177,23 @@ class AppData with ChangeNotifier {
     // Força simular un loading
     await Future.delayed(const Duration(milliseconds: 500));
 
-    Image tmpPlayer = Image.asset('assets/images/bomb.png');
-    Image tmpOpponent = Image.asset('assets/images/flag.png');
+    Image tmpBomb = Image.asset('assets/images/bomb.png');
+    Image tmpFlag = Image.asset('assets/images/flag.png');
+    Image tmpExplosion = Image.asset('assets/images/explosion.png');
+    Image tmpPopcorn = Image.asset('assets/images/palometo.png');
 
     // Carrega les imatges
     if (context.mounted) {
-      imagePlayer = await convertWidgetToUiImage(tmpPlayer);
+      imageBomb = await convertWidgetToUiImage(tmpBomb);
     }
     if (context.mounted) {
-      imageOpponent = await convertWidgetToUiImage(tmpOpponent);
+      imageFlag = await convertWidgetToUiImage(tmpFlag);
+    }
+    if (context.mounted) {
+      imageExplosion = await convertWidgetToUiImage(tmpExplosion);
+    }
+    if (context.mounted) {
+      imageExplosion = await convertWidgetToUiImage(tmpPopcorn);
     }
 
     imagesReady = true;

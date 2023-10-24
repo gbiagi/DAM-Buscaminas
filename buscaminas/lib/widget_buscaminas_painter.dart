@@ -72,60 +72,73 @@ class WidgetBuscaminasPainter extends CustomPainter {
     canvas.drawImageRect(image, srcRect, dstRect, Paint());
   }
 
-  // Dibuixa el taulell de joc
+  // Dibuixa el taulell de joc (creus i rodones)
   void drawBoardStatus(Canvas canvas, Size size) {
-    // Dibuixar 'X' i 'O' del tauler
+    const textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 20.0,
+      fontWeight: FontWeight.bold,
+    );
     double cellWidth = size.width / appData.boardSize;
     double cellHeight = size.height / appData.boardSize;
 
     for (int i = 0; i < appData.boardSize; i++) {
       for (int j = 0; j < appData.boardSize; j++) {
-        if (appData.board[i][j] == 'X') {
-          // Dibuixar una X amb el color del jugador
-          Color color = Colors.blue;
-          switch ("Blau") {
-            case "Blau":
-              color = Colors.blue;
-              break;
-            case "Verd":
-              color = Colors.green;
-              break;
-            case "Gris":
-              color = Colors.grey;
-              break;
-          }
+        // Comprobar si es una bandera
+        if (appData.board[i][j] == '!') {
           double x0 = j * cellWidth;
           double y0 = i * cellHeight;
           double x1 = (j + 1) * cellWidth;
           double y1 = (i + 1) * cellHeight;
 
-          drawImage(canvas, appData.imagePlayer!, x0, y0, x1, y1);
-          //drawCross(canvas, x0, y0, x1, y1, color, 5.0);
-        } else if (appData.board[i][j] == 'O') {
-          // Dibuixar una O amb el color de l'oponent
-          Color color = Colors.blue;
-          switch ("Vermell") {
-            case "Vermell":
-              color = Colors.red;
-              break;
-            case "Taronja":
-              color = Colors.orange;
-              break;
-            case "Marró":
-              color = Colors.brown;
-              break;
-          }
-
+          drawImage(canvas, appData.imageFlag!, x0, y0, x1, y1);
+        }
+        // Comprobar si es una bomba
+        else if (appData.board[i][j] == '+') {
           double x0 = j * cellWidth;
           double y0 = i * cellHeight;
           double x1 = (j + 1) * cellWidth;
           double y1 = (i + 1) * cellHeight;
-          double cX = x0 + (x1 - x0) / 2;
-          double cY = y0 + (y1 - y0) / 2;
-          double radius = (min(cellWidth, cellHeight) / 2) - 5;
 
-          drawImage(canvas, appData.imageOpponent!, x0, y0, x1, y1);
-          //drawCircle(canvas, cX, cY, radius, color, 5.0);
+          drawImage(canvas, appData.imageBomb!, x0, y0, x1, y1);
+        }
+        // Comprobar si es una bomba explotada
+        else if (appData.board[i][j] == 'x') {
+          double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
+
+          drawImage(canvas, appData.imageExplosion!, x0, y0, x1, y1);
+        }
+        // Comprobar si es la casilla palomita
+        else if (appData.board[i][j] == 'p') {
+          double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
+
+          drawImage(canvas, appData.imagePopcorn!, x0, y0, x1, y1);
+        }
+        // Comprobar si en la casilla hay un numero
+        else {
+          double x0 = j * cellWidth;
+          double y0 = i * cellHeight;
+          double x1 = (j + 1) * cellWidth;
+          double y1 = (i + 1) * cellHeight;
+          final textPainter = TextPainter(
+            text: TextSpan(text: appData.board[i][j], style: textStyle),
+            textDirection: TextDirection.ltr,
+          );
+
+          textPainter.layout(maxWidth: x1 - x0);
+
+          final position = Offset(
+            x0 + (x1 - x0 - textPainter.width) / 2,
+            y0 + (y1 - y0 - textPainter.height) / 2,
+          );
+
+          textPainter.paint(canvas, position);
         }
       }
     }
