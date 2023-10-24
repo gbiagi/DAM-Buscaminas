@@ -50,11 +50,9 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
 
                 if (appData.firstMove) {
                   appData.startGame(row, col);
-                  appData.firstMove = false;
                 } else {
                   appData.compBomb(row, col);
                 }
-
                 setState(() {}); // Actualitza la vista
               },
               onDoubleTapDown: (details) {

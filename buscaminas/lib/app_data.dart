@@ -16,10 +16,12 @@ class AppData with ChangeNotifier {
   bool gameIsWin = false;
   bool firstMove = true;
 
-  // TODO cambiar imagenes para que hayan bomba, bombaExplotada y bandera
-  // tambien se puede mirar de hacer con vectores
-  ui.Image? imagePlayer;
-  ui.Image? imageOpponent;
+  // Imagenes del juego
+  ui.Image? imageBomb;
+  ui.Image? imageFlag;
+  ui.Image? imageExplosion;
+  ui.Image? imagePopcorn;
+
   bool imagesReady = false;
 
   int flagCount = 0; // Banderas que coloca el usuario
@@ -29,12 +31,29 @@ class AppData with ChangeNotifier {
   /*-------
    Metodos
   -------*/
+  // Mostrar matriz por terminal
+  void dibujarMatriz() {
+    String matriz = "";
+    for (int row = 0; row < board.length; row++) {
+      for (int col = 0; col < board[row].length; col++) {
+        matriz += "| ${board[row][col]} |";
+      }
+      matriz += "\n";
+    }
+    // ignore: avoid_print
+    print("\n$matriz");
+  }
+
   // Resetear juego
   void resetGame() {
     board.clear();
     gameIsOver = false;
     gameIsWin = false;
     firstMove = true;
+
+    flagCount = 0;
+    bombsWithFlag = 0;
+    exploredBoxes = 0;
 
     // Se crea la matriz con el tamaño seleccionado rellenada con guiones(-)
     for (int row = 0; row < boardSize; row++) {
@@ -50,6 +69,8 @@ class AppData with ChangeNotifier {
     // Se hace el calculo del PBC(Porcentaje de Bombas por Casill)
     double pbc = ((bombAmount * 100) / (boardSize * boardSize)) * 10;
 
+    firstMove = false;
+
     int bombsCount = 0;
 
     // Se crea la casilla palomita
@@ -62,11 +83,11 @@ class AppData with ChangeNotifier {
     // Se ponen bombas hasta que se iguale el bombAmount
     while (!bombasPuestas) {
       // Se colocan las bombas usando el PBC
-      for (int row = 0; row < boardSize; row++) {
-        for (int col = 0; col < boardSize; col++) {
+      for (int row = 0; row < board.length; row++) {
+        for (int col = 0; col < board[row].length; col++) {
           // Evitamos la casilla palomita
-          if (((row < pRow - 1) & (row > pRow + 1)) &
-              ((col < pCol - 1) & (col > pCol + 1))) {
+          if (((row < pRow - 1) | (row > pRow + 1)) |
+              ((col < pCol - 1) | (col > pCol + 1))) {
             // Comprobamos el PBC
             if ((pbc >= rnd.nextInt(1001)) & (board[row][col] != "+")) {
               board[row][col] = "+";
@@ -83,28 +104,32 @@ class AppData with ChangeNotifier {
 
     // Limpiamos la zona de alrededor de la palomita
     compBomb(pRow, pCol);
-
-    gameIsOver = false;
   }
 
   // Comprobar bombas
   void compBomb(int uRow, int uCol) {
     // Comprobamos si a pulsado sobre una bomba
-    if (board[uRow][uCol] == "+") gameIsOver = true;
+    if (board[uRow][uCol] == "+") {
+      gameIsOver = true;
+      board[uRow][uCol] = "x";
+    }
 
     // Si la casilla no es una bomba empezamos a quitar casillas
-    if (!gameIsOver) {
+    if (!gameIsOver &
+        ((board[uRow][uCol] == "-") | (board[uRow][uCol] == "p"))) {
       // Marcamos la casilla como explorada
-      board[uRow][uCol] = ".";
+      if (board[uRow][uCol] != "p") {
+        board[uRow][uCol] = ".";
+      }
       exploredBoxes++;
       int count = 0;
 
       // Miramos cuantas bombas hay alrededor
-      for (int row = uRow - 1; row < uRow + 1; row++) {
-        if ((row >= 0) & (row <= board.length)) {
-          for (int col = uCol - 1; col < uCol + 1; col++) {
+      for (int row = uRow - 1; row < uRow + 2; row++) {
+        if ((row >= 0) & (row <= board.length - 1)) {
+          for (int col = uCol - 1; col < uCol + 2; col++) {
             if ((!((uRow == row) & (uCol == col))) &
-                ((col >= 0) & (col <= board[row].length))) {
+                ((col >= 0) & (col <= board[row].length - 1))) {
               if ((board[row][col] == "+") | (board[row][col] == "+!")) {
                 count++;
                 board[uRow][uCol] = count.toString();
@@ -116,11 +141,11 @@ class AppData with ChangeNotifier {
 
       // Si no tenia bombas comprueba las casillas de alrededor
       if (count == 0) {
-        for (int row = uRow - 1; row < uRow + 1; row++) {
-          if ((row >= 0) & (row <= board.length)) {
-            for (int col = uCol - 1; col < uCol + 1; col++) {
-              if ((!((uRow == row) & (uCol == col))) &
-                  ((col >= 0) & (col <= board[row].length))) {
+        for (int row = uRow - 1; row < uRow + 2; row++) {
+          if ((row >= 0) & (row <= board.length - 1)) {
+            for (int col = uCol - 1; col < uCol + 2; col++) {
+              if (!((uRow == row) & (uCol == col)) &
+                  ((col >= 0) & (col <= board[row].length - 1))) {
                 if (board[row][col] == "-") {
                   compBomb(row, col);
                 }
@@ -130,6 +155,7 @@ class AppData with ChangeNotifier {
         }
       }
     }
+
     checkWin(); //Comprobamos si la partida a terminado
   }
 
@@ -160,7 +186,10 @@ class AppData with ChangeNotifier {
   // Comprobar si ha ganado
   void checkWin() {
     if ((exploredBoxes + bombAmount == boardSize * boardSize) &
-        (bombsWithFlag == bombAmount)) gameIsWin = true; gameIsOver = true;
+        (bombsWithFlag == bombAmount)) {
+      gameIsWin = true;
+      gameIsOver = true;
+    }
   }
 
   // Carrega les imatges per dibuixar-les al Canvas
@@ -174,15 +203,23 @@ class AppData with ChangeNotifier {
     // Força simular un loading
     await Future.delayed(const Duration(milliseconds: 500));
 
-    Image tmpPlayer = Image.asset('assets/images/bomb.png');
-    Image tmpOpponent = Image.asset('assets/images/flag.png');
+    Image tmpBomb = Image.asset('assets/images/bomb.png');
+    Image tmpFlag = Image.asset('assets/images/flag.png');
+    Image tmpExplosion = Image.asset('assets/images/explosion.png');
+    Image tmpPopcorn = Image.asset('assets/images/palometo.png');
 
     // Carrega les imatges
     if (context.mounted) {
-      imagePlayer = await convertWidgetToUiImage(tmpPlayer);
+      imageBomb = await convertWidgetToUiImage(tmpBomb);
     }
     if (context.mounted) {
-      imageOpponent = await convertWidgetToUiImage(tmpOpponent);
+      imageFlag = await convertWidgetToUiImage(tmpFlag);
+    }
+    if (context.mounted) {
+      imageExplosion = await convertWidgetToUiImage(tmpExplosion);
+    }
+    if (context.mounted) {
+      imagePopcorn = await convertWidgetToUiImage(tmpPopcorn);
     }
 
     imagesReady = true;
