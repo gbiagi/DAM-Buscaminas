@@ -4,10 +4,10 @@ import 'package:flutter/material.dart'; // per a 'CustomPainter'
 import 'app_data.dart';
 
 // S'encarrega del dibuix personalitzat del joc
-class WidgetTresRatllaPainter extends CustomPainter {
+class WidgetBuscaminasPainter extends CustomPainter {
   final AppData appData;
 
-  WidgetTresRatllaPainter(this.appData);
+  WidgetBuscaminasPainter(this.appData);
 
   // Dibuixa les linies del taulell
   void drawBoardLines(Canvas canvas, Size size) {
@@ -17,9 +17,9 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
     // Definim els punts on es creuaran les línies verticals
     final List<double> verticalLines = [0];
-    final double firstVertical = size.width / 9;
+    final double firstVertical = size.width / appData.boardSize;
     verticalLines.add(firstVertical);
-    for (int i = 2 ; i < 11 ; i++) {
+    for (int i = 2; i < appData.boardSize + 1; i++) {
       verticalLines.add(firstVertical * i);
     }
 
@@ -30,9 +30,9 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
     // Definim els punts on es creuaran les línies horitzontals
     final List<double> horizontalLines = [0];
-    final double firstHorizontal = size.height / 9;
+    final double firstHorizontal = size.height / appData.boardSize;
     horizontalLines.add(firstHorizontal);
-    for (int i = 2 ; i < 11 ; i++) {
+    for (int i = 2; i < appData.boardSize + 1; i++) {
       horizontalLines.add(firstHorizontal * i);
     }
 
@@ -72,47 +72,18 @@ class WidgetTresRatllaPainter extends CustomPainter {
     canvas.drawImageRect(image, srcRect, dstRect, Paint());
   }
 
-  // Dibuia una creu centrada a una casella del taulell
-  void drawCross(Canvas canvas, double x0, double y0, double x1, double y1,
-      Color color, double strokeWidth) {
-    Paint paint = Paint()
-      ..color = color
-      ..strokeWidth = strokeWidth;
-
-    canvas.drawLine(
-      Offset(x0, y0),
-      Offset(x1, y1),
-      paint,
-    );
-    canvas.drawLine(
-      Offset(x1, y0),
-      Offset(x0, y1),
-      paint,
-    );
-  }
-
-  // Dibuixa un cercle centrat a una casella del taulell
-  void drawCircle(Canvas canvas, double x, double y, double radius, Color color,
-      double strokeWidth) {
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = color
-      ..strokeWidth = strokeWidth;
-    canvas.drawCircle(Offset(x, y), radius, paint);
-  }
-
-  // Dibuixa el taulell de joc (creus i rodones)
+  // Dibuixa el taulell de joc
   void drawBoardStatus(Canvas canvas, Size size) {
     // Dibuixar 'X' i 'O' del tauler
-    double cellWidth = size.width / 3;
-    double cellHeight = size.height / 3;
+    double cellWidth = size.width / appData.boardSize;
+    double cellHeight = size.height / appData.boardSize;
 
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < appData.boardSize; i++) {
+      for (int j = 0; j < appData.boardSize; j++) {
         if (appData.board[i][j] == 'X') {
           // Dibuixar una X amb el color del jugador
           Color color = Colors.blue;
-          switch (appData.colorPlayer) {
+          switch ("Blau") {
             case "Blau":
               color = Colors.blue;
               break;
@@ -123,18 +94,17 @@ class WidgetTresRatllaPainter extends CustomPainter {
               color = Colors.grey;
               break;
           }
-
           double x0 = j * cellWidth;
           double y0 = i * cellHeight;
           double x1 = (j + 1) * cellWidth;
           double y1 = (i + 1) * cellHeight;
 
           drawImage(canvas, appData.imagePlayer!, x0, y0, x1, y1);
-          drawCross(canvas, x0, y0, x1, y1, color, 5.0);
+          //drawCross(canvas, x0, y0, x1, y1, color, 5.0);
         } else if (appData.board[i][j] == 'O') {
           // Dibuixar una O amb el color de l'oponent
           Color color = Colors.blue;
-          switch (appData.colorOpponent) {
+          switch ("Vermell") {
             case "Vermell":
               color = Colors.red;
               break;
@@ -155,7 +125,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
           double radius = (min(cellWidth, cellHeight) / 2) - 5;
 
           drawImage(canvas, appData.imageOpponent!, x0, y0, x1, y1);
-          drawCircle(canvas, cX, cY, radius, color, 5.0);
+          //drawCircle(canvas, cX, cY, radius, color, 5.0);
         }
       }
     }
@@ -163,7 +133,7 @@ class WidgetTresRatllaPainter extends CustomPainter {
 
   // Dibuixa el missatge de joc acabat
   void drawGameOver(Canvas canvas, Size size) {
-    String message = "El joc ha acabat. Ha guanyat ${appData.gameWinner}!";
+    String message = "El joc ha acabat!";
 
     const textStyle = TextStyle(
       color: Colors.black,
@@ -198,13 +168,18 @@ class WidgetTresRatllaPainter extends CustomPainter {
     textPainter.paint(canvas, position);
   }
 
+  // TODO cambiar este metedo y el de arriba
   // Funció principal de dibuix
   @override
   void paint(Canvas canvas, Size size) {
     drawBoardLines(canvas, size);
     drawBoardStatus(canvas, size);
-    if (appData.gameWinner != '-') {
-      drawGameOver(canvas, size);
+    if (appData.gameIsOver) {
+      if (appData.gameIsWin) {
+        drawGameOver(canvas, size); // Se dibuja final de ganar
+      } else {
+        drawGameOver(canvas, size); // Se dibuja final de perder
+      }
     }
   }
 

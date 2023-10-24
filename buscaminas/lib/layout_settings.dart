@@ -10,20 +10,21 @@ class LayoutSettings extends StatefulWidget {
 }
 
 class LayoutSettingsState extends State<LayoutSettings> {
-  List<String> playerColors = ["Verd", "Blau", "Gris"];
-  List<String> opponentColors = ["Vermell", "Taronja", "Marró"];
+  List<String> sizeOptions = ["9 x 9", "15 x 15"];
+  List<String> bombsOptions = ["5", "10", "20"];
 
   // Mostra el CupertinoPicker en un diàleg.
   void _showPicker(String type) {
-    List<String> options = type == "player" ? playerColors : opponentColors;
-    String title = type == "player"
-        ? "Selecciona el color del jugador"
-        : "Selecciona el color de l'oponent";
+    List<String> options = type == "size" ? sizeOptions : bombsOptions;
+    String title = type == "size"
+        ? "Selecciona el tamanyo del tablero"
+        : "Selecciona la cantidad de bombas";
 
     // Troba l'índex de la opció actual a la llista d'opcions
     AppData appData = Provider.of<AppData>(context, listen: false);
-    String currentValue =
-        type == "player" ? appData.colorPlayer : appData.colorOpponent;
+    String currentValue = type == "size"
+        ? "${appData.boardSize} x ${appData.boardSize}"
+        : appData.bombAmount.toString();
     int currentIndex = options.indexOf(currentValue);
     FixedExtentScrollController scrollController =
         FixedExtentScrollController(initialItem: currentIndex);
@@ -56,10 +57,14 @@ class LayoutSettingsState extends State<LayoutSettings> {
                   itemExtent: 32.0,
                   scrollController: scrollController,
                   onSelectedItemChanged: (index) {
-                    if (type == "player") {
-                      appData.colorPlayer = options[index];
+                    if (type == "size") {
+                      if (options[index] == "9 x 9") {
+                        appData.boardSize = 9;
+                      } else {
+                        appData.boardSize = 15;
+                      }
                     } else {
-                      appData.colorOpponent = options[index];
+                      appData.bombAmount = int.parse(options[index]);
                     }
                     // Actualitzar el widget
                     setState(() {});
@@ -94,17 +99,17 @@ class LayoutSettingsState extends State<LayoutSettings> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text("Color jugador: "),
+              const Text("Tamaño del tablero: "),
               CupertinoButton(
-                onPressed: () => _showPicker("player"),
-                child: Text(appData.colorPlayer),
+                onPressed: () => _showPicker("size"),
+                child: Text("${appData.boardSize} x ${appData.boardSize}"),
               )
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text("Color de l'oponent: "),
+              const Text("Numero de Bombas: "),
               CupertinoButton(
-                onPressed: () => _showPicker("opponent"),
-                child: Text(appData.colorOpponent),
+                onPressed: () => _showPicker("bombs"),
+                child: Text(appData.bombAmount.toString()),
               )
             ]),
           ],
