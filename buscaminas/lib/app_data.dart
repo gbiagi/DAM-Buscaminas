@@ -108,7 +108,7 @@ class AppData with ChangeNotifier {
 
   // Comprobar bombas
   void compBomb(int uRow, int uCol) {
-    // Comprobamos si a pulsado sobre una bomba
+    // Comprobamos si ha pulsado sobre una bomba
     if (board[uRow][uCol] == "+") {
       gameIsOver = true;
       board[uRow][uCol] = "x";
@@ -122,8 +122,8 @@ class AppData with ChangeNotifier {
         board[uRow][uCol] = ".";
       }
       exploredBoxes++;
-      int count = 0;
 
+      int count = 0;
       // Miramos cuantas bombas hay alrededor
       for (int row = uRow - 1; row < uRow + 2; row++) {
         if ((row >= 0) & (row <= board.length - 1)) {
