@@ -126,7 +126,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
           double x1 = (j + 1) * cellWidth;
           double y1 = (i + 1) * cellHeight;
           final textPainter = TextPainter(
-            text: const TextSpan(text: "UwU", style: textStyle),
+            text: const TextSpan(text: " ", style: textStyle),
             textDirection: TextDirection.ltr,
           );
 
