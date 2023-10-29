@@ -9,7 +9,7 @@ class AppData with ChangeNotifier {
   ------------*/
   int boardSize = 9;
   int bombAmount = 10;
-
+  String counter = "0";
   List<List<String>> board = [];
 
   bool gameIsOver = false;
