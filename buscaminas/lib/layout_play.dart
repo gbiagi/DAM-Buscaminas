@@ -21,7 +21,7 @@ class LayoutPlayState extends State<LayoutPlay> {
         ),
       ),
       child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(50),
           child: const SafeArea(
             child: WidgetBuscaminas(),
           )),

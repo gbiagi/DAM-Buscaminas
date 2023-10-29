@@ -27,14 +27,15 @@ class LayoutIntroState extends State<LayoutIntro> {
       ),
       child: Column(
         children: <Widget>[
-          // Ícona tipus 'videojoc'
-          const Expanded(
-              child: Center(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Icon(CupertinoIcons.game_controller, size: 100.0),
+          // Replace the Icon with Image.asset
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 100),
+                child: Image.asset('assets/images/pantallaPrincipal.png'),
+              ),
             ),
-          )),
+          ),
           Padding(
             padding: const EdgeInsets.all(20),
             child: CupertinoButton.filled(
