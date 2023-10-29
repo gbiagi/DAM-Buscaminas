@@ -10,6 +10,8 @@ class AppData with ChangeNotifier {
   int boardSize = 9;
   int bombAmount = 10;
 
+  int time = 0;
+
   List<List<String>> board = [];
 
   bool gameIsOver = false;
@@ -54,6 +56,7 @@ class AppData with ChangeNotifier {
     flagCount = 0;
     bombsWithFlag = 0;
     exploredBoxes = 0;
+    int timer = 0;
 
     // Se crea la matriz con el tamaño seleccionado rellenada con guiones(-)
     for (int row = 0; row < boardSize; row++) {
