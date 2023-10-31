@@ -66,9 +66,8 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
           ),
         ),
         SizedBox(
-          width: MediaQuery.of(context)
-              .size
-              .width, // Ocupa tot l'ample de la pantalla
+          width: MediaQuery.of(context).size.height -
+              130, // Ocupa tot l'ample de la pantalla
           height: MediaQuery.of(context).size.height -
               130, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
           child: FutureBuilder(
@@ -109,9 +108,8 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
                     setState(() {}); // Actualitza la vista
                   },
                   child: SizedBox(
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Ocupa tot l'ample de la pantalla
+                    width: MediaQuery.of(context).size.height -
+                        130, // Ocupa tot l'ample de la pantalla
                     height: MediaQuery.of(context).size.height -
                         130, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
                     child: CustomPaint(

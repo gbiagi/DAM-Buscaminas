@@ -107,7 +107,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
             (appData.board[i][j] == '-')) {
           // Pintar el fondo de las casillas exploradas
           cellBackgroundColor =
-              ui.Color.fromARGB(255, 68, 68, 68).withOpacity(0.5);
+              ui.Color.fromARGB(255, 102, 52, 18).withOpacity(0.5);
           final cellPaint = Paint()..color = cellBackgroundColor;
           canvas.drawRect(
               Rect.fromPoints(Offset(x0, y0), Offset(x1, y1)), cellPaint);
@@ -128,7 +128,7 @@ class WidgetBuscaminasPainter extends CustomPainter {
         } else {
           // Pintar el fondo de las casillas exploradas
           cellBackgroundColor =
-              ui.Color.fromARGB(255, 139, 35, 27).withOpacity(0.5);
+              ui.Color.fromARGB(255, 182, 146, 79).withOpacity(0.5);
           final cellPaint = Paint()..color = cellBackgroundColor;
           canvas.drawRect(
               Rect.fromPoints(Offset(x0, y0), Offset(x1, y1)), cellPaint);
