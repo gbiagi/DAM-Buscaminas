@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'app_data.dart';
@@ -8,7 +10,6 @@ class WidgetBuscaminas extends StatefulWidget {
 
   @override
   WidgetBuscaminasState createState() => WidgetBuscaminasState();
-  
 }
 
 class WidgetBuscaminasState extends State<WidgetBuscaminas> {
@@ -21,6 +22,16 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppData appData = Provider.of<AppData>(context, listen: false);
       _loadImagesFuture = appData.loadImages(context);
+      timer();
+    });
+  }
+
+  void timer() {
+    AppData appData = Provider.of<AppData>(context, listen: false);
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (appData.gameIsOver) timer.cancel();
+      appData.time++;
+      setState(() {});
     });
   }
 
@@ -34,21 +45,19 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
           // El siguiente SizedBox no será interactivo
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 56.0,
+            height: 30,
             child: Row(
               children: [
                 Expanded(
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
-                        "Bombas encontradas: ${appData.flagCount} / ${appData.bombAmount}"),
+                        "Bombas: ${appData.flagCount} / ${appData.bombAmount}"),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     alignment: Alignment.centerRight,
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text("Time: ${appData.time}"),
                   ),
                 ),
@@ -61,7 +70,7 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
               .size
               .width, // Ocupa tot l'ample de la pantalla
           height: MediaQuery.of(context).size.height -
-              56.0, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
+              130, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
           child: FutureBuilder(
             // Segons si les imatges estan disponibles mostra un progrés o el joc
             future: _loadImagesFuture,
@@ -104,7 +113,7 @@ class WidgetBuscaminasState extends State<WidgetBuscaminas> {
                         .size
                         .width, // Ocupa tot l'ample de la pantalla
                     height: MediaQuery.of(context).size.height -
-                        56.0, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
+                        130, // Ocupa tota l'altura disponible menys l'altura de l'AppBar
                     child: CustomPaint(
                       painter: WidgetBuscaminasPainter(appData),
                     ),

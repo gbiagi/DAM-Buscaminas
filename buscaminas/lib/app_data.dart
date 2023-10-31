@@ -56,7 +56,7 @@ class AppData with ChangeNotifier {
     flagCount = 0;
     bombsWithFlag = 0;
     exploredBoxes = 0;
-    int timer = 0;
+    time = 0;
 
     // Se crea la matriz con el tamaño seleccionado rellenada con guiones(-)
     for (int row = 0; row < boardSize; row++) {
